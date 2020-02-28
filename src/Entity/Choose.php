@@ -22,7 +22,7 @@ class Choose
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Specialty", inversedBy="choose", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Specialty", inversedBy="choose", cascade={"persist", "remove"})
      */
     private $specialty;
 

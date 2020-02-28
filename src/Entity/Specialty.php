@@ -22,7 +22,7 @@ class Specialty
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Choose", mappedBy="specialty", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Choose", mappedBy="specialty", cascade={"persist", "remove"})
      */
     private $choose;
 
