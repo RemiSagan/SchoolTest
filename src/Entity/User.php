@@ -41,6 +41,11 @@ class User
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Choose", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $choose;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,24 @@ class User
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getChoose(): ?Choose
+    {
+        return $this->choose;
+    }
+
+    public function setChoose(?Choose $choose): self
+    {
+        $this->choose = $choose;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $choose ? null : $this;
+        if ($choose->getUser() !== $newUser) {
+            $choose->setUser($newUser);
+        }
 
         return $this;
     }
