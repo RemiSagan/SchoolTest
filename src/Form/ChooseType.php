@@ -19,10 +19,10 @@ class ChooseType extends AbstractType
             //     'class' => User::class,
             //     'choice_label' => 'firstname',
             // ])
-            ->add('specialty', EntityType::class, [
+            ->add('specialties', EntityType::class, [
                 'class' => Specialty::class,
                 'choice_label' => 'name',
-                // 'multiple' => true
+                'multiple' => true
             ])
             ;
     }

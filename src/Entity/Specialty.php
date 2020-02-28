@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,9 +24,14 @@ class Specialty
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Choose", mappedBy="specialty", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Choose", mappedBy="specialties")
      */
-    private $choose;
+    private $chooses;
+
+    public function __construct()
+    {
+        $this->chooses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -43,19 +50,29 @@ class Specialty
         return $this;
     }
 
-    public function getChoose(): ?Choose
+    /**
+     * @return Collection|Choose[]
+     */
+    public function getChooses(): Collection
     {
-        return $this->choose;
+        return $this->chooses;
     }
 
-    public function setChoose(?Choose $choose): self
+    public function addChoose(Choose $choose): self
     {
-        $this->choose = $choose;
+        if (!$this->chooses->contains($choose)) {
+            $this->chooses[] = $choose;
+            $choose->addSpecialty($this);
+        }
 
-        // set (or unset) the owning side of the relation if necessary
-        $newSpecialty = null === $choose ? null : $this;
-        if ($choose->getSpecialty() !== $newSpecialty) {
-            $choose->setSpecialty($newSpecialty);
+        return $this;
+    }
+
+    public function removeChoose(Choose $choose): self
+    {
+        if ($this->chooses->contains($choose)) {
+            $this->chooses->removeElement($choose);
+            $choose->removeSpecialty($this);
         }
 
         return $this;

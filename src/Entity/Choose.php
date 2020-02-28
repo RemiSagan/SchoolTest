@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,14 +19,19 @@ class Choose
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="choose", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="chooses")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Specialty", inversedBy="choose", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Specialty", inversedBy="chooses")
      */
-    private $specialty;
+    private $specialties;
+
+    public function __construct()
+    {
+        $this->specialties = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -43,14 +50,28 @@ class Choose
         return $this;
     }
 
-    public function getSpecialty(): ?Specialty
+    /**
+     * @return Collection|Specialty[]
+     */
+    public function getSpecialties(): Collection
     {
-        return $this->specialty;
+        return $this->specialties;
     }
 
-    public function setSpecialty(?Specialty $specialty): self
+    public function addSpecialty(Specialty $specialty): self
     {
-        $this->specialty = $specialty;
+        if (!$this->specialties->contains($specialty)) {
+            $this->specialties[] = $specialty;
+        }
+
+        return $this;
+    }
+
+    public function removeSpecialty(Specialty $specialty): self
+    {
+        if ($this->specialties->contains($specialty)) {
+            $this->specialties->removeElement($specialty);
+        }
 
         return $this;
     }

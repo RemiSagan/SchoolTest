@@ -52,9 +52,10 @@ class ChooseController extends AbstractController
     /**
      * @Route("/{id}/add", name="choose_add", methods={"GET","POST"})
      */
-    public function add(Request $request, User $user): Response
+    public function add(Request $request, User $user, ChooseRepository $chooseRepository): Response
     {
         $choose = new Choose();
+
         $choose->setUser($user);
         $form = $this->createForm(ChooseType::class, $choose);
         $form->handleRequest($request);
@@ -68,8 +69,10 @@ class ChooseController extends AbstractController
         }
 
         return $this->render('choose/new.html.twig', [
+            'user' => $user,
             'choose' => $choose,
             'form' => $form->createView(),
+            'debugs' => $chooseRepository->findBy(['user' => $user])
         ]);
     }
 }

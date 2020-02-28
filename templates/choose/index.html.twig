@@ -3,33 +3,42 @@
 {% block title 'Liste des choix' %}
 
 {% block body %}
-    <h1>Liste des choix</h1>
+	<h1>Liste des choix</h1>
 
-    <table class="table text-center">
-        <thead>
-            <tr>
-                <th>Elève</th>
-                <th>Specialité</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for choose in chooses %}
-            <tr>
-                <td>{{ choose.user.firstname }} {{ choose.user.lastname }}</td>
-                <td>{{ choose.specialty.name }}</td>
-                <td>
-                    {# <a href="{{ path('choose_show', {'id': choose.id}) }}" class="btn btn-dark">Détail</a> #}
-                    {# <a href="{{ path('choose_edit', {'id': choose.id}) }}" class="btn btn-secondary">Editer</a> #}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucune donnée</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table text-center">
+		<thead>
+			<tr>
+				<th>Elève</th>
+				<th>Specialité</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for choose in chooses %}
+				<tr>
+					<td>{{ choose.user.firstname }}
+						{{ choose.user.lastname }}</td>
+					<td>
+						{% for specialty in choose.specialties %}
+							{# {{ dump(specialty.study.name) }} #}
+							{{ specialty.name }}
+							{% if loop.last %}
+								{% else %}
+									-
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td>{# <a href="{{ path('choose_show', {'id': choose.id}) }}" class="btn btn-dark">Détail</a> #}
+						{# <a href="{{ path('choose_edit', {'id': choose.id}) }}" class="btn btn-secondary">Editer</a> #}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="3">Aucune donnée</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('choose_new') }}" class="btn btn-success">Créer un choix</a>
+	<a href="{{ path('choose_new') }}" class="btn btn-success">Créer un choix</a>
 {% endblock %}

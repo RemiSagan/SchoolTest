@@ -13,7 +13,7 @@ class SpecialtyType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('choose')
+            // ->add('choose')
         ;
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,9 +44,14 @@ class User
     private $updated_at;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Choose", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Choose", mappedBy="users")
      */
-    private $choose;
+    private $chooses;
+
+    public function __construct()
+    {
+        $this->chooses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -111,19 +118,32 @@ class User
         return $this;
     }
 
-    public function getChoose(): ?Choose
+    /**
+     * @return Collection|Choose[]
+     */
+    public function getChooses(): Collection
     {
-        return $this->choose;
+        return $this->chooses;
     }
 
-    public function setChoose(?Choose $choose): self
+    public function addChoose(Choose $choose): self
     {
-        $this->choose = $choose;
+        if (!$this->chooses->contains($choose)) {
+            $this->chooses[] = $choose;
+            $choose->setUsers($this);
+        }
 
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = null === $choose ? null : $this;
-        if ($choose->getUser() !== $newUser) {
-            $choose->setUser($newUser);
+        return $this;
+    }
+
+    public function removeChoose(Choose $choose): self
+    {
+        if ($this->chooses->contains($choose)) {
+            $this->chooses->removeElement($choose);
+            // set the owning side to null (unless already changed)
+            if ($choose->getUsers() === $this) {
+                $choose->setUsers(null);
+            }
         }
 
         return $this;
