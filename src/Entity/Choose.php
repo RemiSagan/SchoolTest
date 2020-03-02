@@ -28,6 +28,11 @@ class Choose
      */
     private $specialties;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Study", inversedBy="chooses")
+     */
+    private $study;
+
     public function __construct()
     {
         $this->specialties = new ArrayCollection();
@@ -72,6 +77,18 @@ class Choose
         if ($this->specialties->contains($specialty)) {
             $this->specialties->removeElement($specialty);
         }
+
+        return $this;
+    }
+
+    public function getStudy(): ?Study
+    {
+        return $this->study;
+    }
+
+    public function setStudy(?Study $study): self
+    {
+        $this->study = $study;
 
         return $this;
     }

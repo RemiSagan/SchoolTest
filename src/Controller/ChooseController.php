@@ -21,6 +21,8 @@ class ChooseController extends AbstractController
      */
     public function index(ChooseRepository $chooseRepository): Response
     {
+        dump($chooseRepository->findAll());
+
         return $this->render('choose/index.html.twig', [
             'chooses' => $chooseRepository->findAll(),
         ]);

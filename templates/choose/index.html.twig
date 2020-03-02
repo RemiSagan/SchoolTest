@@ -10,6 +10,7 @@
 			<tr>
 				<th>Elève</th>
 				<th>Specialité</th>
+				<th>Niveau d'étude</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -20,7 +21,6 @@
 						{{ choose.user.lastname }}</td>
 					<td>
 						{% for specialty in choose.specialties %}
-							{# {{ dump(specialty.study.name) }} #}
 							{{ specialty.name }}
 							{% if loop.last %}
 								{% else %}
@@ -28,6 +28,7 @@
 							{% endif %}
 						{% endfor %}
 					</td>
+					<td>{{ choose.study.name }}</td>
 					<td>{# <a href="{{ path('choose_show', {'id': choose.id}) }}" class="btn btn-dark">Détail</a> #}
 						{# <a href="{{ path('choose_edit', {'id': choose.id}) }}" class="btn btn-secondary">Editer</a> #}
 					</td>

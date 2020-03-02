@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Study;
 use App\Entity\Choose;
 use App\Entity\Specialty;
 use Symfony\Component\Form\AbstractType;
@@ -23,6 +24,10 @@ class ChooseType extends AbstractType
                 'class' => Specialty::class,
                 'choice_label' => 'name',
                 'multiple' => true
+            ])
+            ->add('study', EntityType::class, [
+                'class' => Study::class,
+                'choice_label' => 'name',
             ])
             ;
     }
