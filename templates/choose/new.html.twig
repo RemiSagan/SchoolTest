@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Specialty{% endblock %}
+
+{% block body %}
+    <h1>Create new Specialty</h1>
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">Je fais mon choix</h1>
+		<p class="lead">Je choisi mes spécialitées pour les années futures</p>
+	</div>
+
+	{# Info user #}
+	<div class="row">
+		<div class="container">
+			<div class="card-deck mb-3 text-center">
+				<div class="card mb-4 shadow-sm">
+					<div class="card-header">
+						<h4 class="my-0 font-weight-normal">Informations personnelles</h4>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label for="firstName">Prénom</label>
+								<input type="text" class="form-control text-center" value="{{user.firstname}}" disabled>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="lastName">Nom de famille</label>
+								<input type="text" class="form-control text-center" value="{{user.lastname}}" disabled>
+							</div>
+						</div>
+						<div class="mb-3">
+							<label for="email">Date de naissance</label>
+							<input type="text" class="form-control text-center" value="{{user.dateOfBirth|date('Y-m-d H:i:s') }}" disabled>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    {{dump(choose)}}
+    {% for debug in debugs %}
+        {% for specialty in debug.specialties %}
+            {{dump(specialty.name)}}
+            
+        {% endfor %}
+    {% endfor %}
+    
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {# {{ form_row(form.specialties) }} #}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+
+    <a href="{{ path('specialty_index') }}">back to list</a>
+{% endblock %}

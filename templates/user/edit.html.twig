@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Editer un élève' %}
+
+{% block body %}
+    <h1>Editer un élève : {{ user.firstname }} {{ user.lastname }}</h1>
+
+    {{ include('user/_form.html.twig', {'button_label': 'Mise à jour'}) }}
+    <br>
+    {{ include('user/_delete_form.html.twig') }}
+{% endblock %}

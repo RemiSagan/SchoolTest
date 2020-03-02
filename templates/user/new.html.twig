@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Créer un élève' %}
+
+{% block body %}
+	<h1>Créer un élève</h1>
+
+	{{ include('user/_form.html.twig', {button: 'Créer'}) }}
+    
+{% endblock %}
